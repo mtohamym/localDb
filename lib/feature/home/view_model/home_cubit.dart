@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:meta/meta.dart';
 import 'package:session/core/local_storage/cache_helper/cache_helper.dart';
+import 'package:session/core/local_storage/sql_helper/sql_helper.dart';
 
 import '../../../core/network/dio_helper/dio_helper.dart';
 import '../../../core/network/endpoints.dart';
@@ -18,7 +19,7 @@ class HomeCubit extends Cubit<HomeState> {
   ResturantModel? resturantModel;
   FoodModel? foodModel;
 
-  void loadData(){
+  void loadData() {
     getResturantsData();
     getFoods();
   }
@@ -51,4 +52,30 @@ class HomeCubit extends Cubit<HomeState> {
       emit(FoodDataFail());
     });
   }
+
+  void addToFavorite(int index) {
+    SQLHelper.add(
+        foodModel!.data![index].name!,
+        foodModel!.data![index].description!);
+  }
+
+  List<Map<String, dynamic>> foods = [];
+  void getFoodsFromDB() {
+    SQLHelper.get().then((value) {
+      foods = value;
+      emit(FoodDataSuccess());
+    }).catchError((onError) {
+      emit(FoodDataFail());
+    });
+
+  }
+
+  void deleteFromFavorite(int index) {
+    SQLHelper.delete(foods[index]['id']).then((value) {
+      getFoodsFromDB();
+      emit(FoodDataSuccess());
+    });
+  }
+
+
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import '../../model/food_model.dart';
 import '../../view_model/home_cubit.dart';
 
@@ -45,6 +44,10 @@ class FoodCard extends StatelessWidget {
               data.price!,
               style: TextStyle(fontWeight: FontWeight.normal, fontSize: 13),
             ),
+            TextButton(onPressed: () {
+              myCubit.addToFavorite(index);
+
+            }, child: Text("Add to Favorite"))
           ],
         ),
       ),

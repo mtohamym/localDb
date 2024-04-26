@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'feature/auth/view/login_screen.dart';
+import 'splash_screen.dart';
 
 
 class FoodNingaApp extends StatelessWidget {
@@ -10,7 +11,7 @@ class FoodNingaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: "Ninga",
-      home: LoginScreen(),
+      home: SplashScreen(),
     );
   }
 }
